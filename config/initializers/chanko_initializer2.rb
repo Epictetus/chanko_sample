@@ -1,0 +1,1 @@
+Chanko.config.raise = false if Rails.env.development?

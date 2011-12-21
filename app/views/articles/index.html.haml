@@ -1,0 +1,10 @@
+= render :partial => 'create'
+- Article.limit(10).order('created_at DESC').each do |article|
+  %h2.article_title
+    = article.title 
+  %div.timestamp 
+    = article.created_at.to_s(:short)
+  %div.article_body
+    = article.content
+    = invoke(:article_image, :image, :locals => {:article => article})
+    = invoke(:article_deletion, :button, :locals => {:article => article})

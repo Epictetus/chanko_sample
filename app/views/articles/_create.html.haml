@@ -1,0 +1,20 @@
+%div.create_article
+  = button_to_function 'New article', "$('.create_form').toggle();"
+
+%div.create_form{:style => "display: #{@article && @article.errors.any? ? "display" : "none"};"}
+  - form = Proc.new do |f|
+    - if @article && @article.errors.any?
+      %ul
+        - @article.errors.full_messages.each do |msg|
+          %li
+            = msg
+    = f.label :title
+    = f.text_field :title
+    = f.label :content
+    = f.text_area :content, :size => '20x5'
+    = invoke(:article_image, :input, :locals => {:form => f } )
+    <br />
+    = submit_tag 'Create article'
+
+  = invoke(:article_image, :multipart, :locals => {:form => form}) do
+    = form_for(:article, :url => articles_path, :html => {:method => 'post' }, &form)
